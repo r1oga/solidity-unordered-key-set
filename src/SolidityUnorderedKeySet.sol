@@ -1,7 +1,10 @@
 pragma solidity ^0.6;
+import "./SafeMath.sol";
 
 
 library SolidityUnorderedKeySetLib {
+    using SafeMath for uint;
+
     struct Set {
         mapping(bytes32 => uint) keyPointers;
         bytes32[] keyList;
@@ -11,12 +14,12 @@ library SolidityUnorderedKeySetLib {
         require(key != 0x0, "UnorderedKeySet(100) - Key cannot be 0x0");
         require(!exists(self, key), "UnorderedKeySet(101) - Key already exists in the set.");
         self.keyList.push(key);
-        self.keyPointers[key] = self.keyList.length - 1;
+        self.keyPointers[key] = self.keyList.length.sub(1);
     }
 
     function remove(Set storage self, bytes32 key) internal {
         require(exists(self, key), "UnorderedKeySet(102) - Key does not exist in the set.");
-        bytes32 keyToMove = self.keyList[count(self)-1];
+        bytes32 keyToMove = self.keyList[count(self).sub(1)];
         uint rowToReplace = self.keyPointers[key];
         self.keyPointers[keyToMove] = rowToReplace;
         self.keyList[rowToReplace] = keyToMove;
@@ -29,7 +32,7 @@ library SolidityUnorderedKeySetLib {
     }
 
     function exists(Set storage self, bytes32 key) internal view returns(bool) {
-        if(self.keyList.length == 0) return false;
+        if (self.keyList.length == 0) return false;
         return self.keyList[self.keyPointers[key]] == key;
     }
 
@@ -44,7 +47,7 @@ library SolidityUnorderedKeySetLib {
 
 contract SolidityUnorderedKeySet {
     using SolidityUnorderedKeySetLib for SolidityUnorderedKeySetLib.Set;
-    SolidityUnorderedKeySetLib.Set set;
+    SolidityUnorderedKeySetLib.Set public set;
 
     event LogUpdate(address sender, string action, bytes32 key);
 
