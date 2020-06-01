@@ -14,12 +14,12 @@ library SolidityUnorderedKeySetLib {
         require(key != 0x0, "UnorderedKeySet(100) - Key cannot be 0x0");
         require(!exists(self, key), "UnorderedKeySet(101) - Key already exists in the set.");
         self.keyList.push(key);
-        self.keyPointers[key] = self.keyList.length.sub(1);
+        self.keyPointers[key] = len(self).sub(1);
     }
 
     function remove(Set storage self, bytes32 key) internal {
         require(exists(self, key), "UnorderedKeySet(102) - Key does not exist in the set.");
-        bytes32 keyToMove = self.keyList[count(self).sub(1)];
+        bytes32 keyToMove = self.keyList[len(self).sub(1)];
         uint rowToReplace = self.keyPointers[key];
         self.keyPointers[keyToMove] = rowToReplace;
         self.keyList[rowToReplace] = keyToMove;
@@ -27,12 +27,12 @@ library SolidityUnorderedKeySetLib {
         self.keyList.pop();
     }
 
-    function count(Set storage self) internal view returns(uint) {
-        return(self.keyList.length);
+    function len(Set storage self) internal view returns(uint) {
+        return self.keyList.length;
     }
 
     function exists(Set storage self, bytes32 key) internal view returns(bool) {
-        if (self.keyList.length == 0) return false;
+        if (len(self) == 0) return false;
         return self.keyList[self.keyPointers[key]] == key;
     }
 
@@ -65,8 +65,8 @@ contract SolidityUnorderedKeySet {
         emit LogUpdate(msg.sender, "remove", key);
     }
 
-    function count() public view returns(uint) {
-        return set.count();
+    function len() public view returns(uint) {
+        return set.len();
     }
 
     function keyAtIndex(uint index) public view returns(bytes32) {
