@@ -7,6 +7,7 @@ contract SolidityUnorderedKeySetTest is DSTest {
     using SolidityUnorderedKeySetLib for SolidityUnorderedKeySetLib.Set;
     SolidityUnorderedKeySetLib.Set set;
     SolidityUnorderedKeySetLib.Set set2;
+    SolidityUnorderedKeySetLib.Set set3;
 
     function setUp() public {
         // set = SolidityUnorderedKeySetLib.Set();
@@ -23,6 +24,11 @@ contract SolidityUnorderedKeySetTest is DSTest {
         set2.keyList.push("test");
         set2.keyPointers["test"] = 0;
         assert(set2.exists("test"));
+    }
 
+    function testInsert() public {
+        set3.insert("test");
+        assertEq(set3.len(), 1);
+        assert(set3.exists("test"));
     }
 }
