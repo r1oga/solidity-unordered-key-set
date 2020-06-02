@@ -27,17 +27,21 @@ library SolidityUnorderedKeySetLib {
         self.keyList.pop();
     }
 
-    function len(Set storage self) internal view returns(uint) {
+    function len(Set storage self) internal view returns (uint) {
         return self.keyList.length;
     }
 
-    function exists(Set storage self, bytes32 key) internal view returns(bool) {
+    function exists(Set storage self, bytes32 key) internal view returns (bool) {
         if (len(self) == 0) return false;
         return self.keyList[self.keyPointers[key]] == key;
     }
 
-    function keyAtIndex(Set storage self, uint index) internal view returns(bytes32) {
+    function keyAtIndex(Set storage self, uint index) internal view returns (bytes32) {
         return self.keyList[index];
+    }
+
+    function indexAtKey(Set storage self, bytes32 key) internal view returns (uint) {
+        return self.keyPointers[key];
     }
 
     function nukeSet(Set storage self) public {
@@ -48,7 +52,7 @@ library SolidityUnorderedKeySetLib {
 
 contract SolidityUnorderedKeySet {
     using SolidityUnorderedKeySetLib for SolidityUnorderedKeySetLib.Set;
-    SolidityUnorderedKeySetLib.Set public set;
+    SolidityUnorderedKeySetLib.Set set;
 
     event LogUpdate(address sender, string action, bytes32 key);
 
@@ -72,6 +76,10 @@ contract SolidityUnorderedKeySet {
 
     function keyAtIndex(uint index) public view returns(bytes32) {
         return set.keyAtIndex(index);
+    }
+
+    function indexAtKey(bytes32 key) public view returns (uint) {
+        return set.indexAtKey(key);
     }
 
     function nukeSet() public {
