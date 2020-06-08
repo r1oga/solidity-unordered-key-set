@@ -44,7 +44,7 @@ library SolidityUnorderedKeySetLib {
         return self.keyPointers[key];
     }
 
-    function nukeSet(Set storage self) public {
+    function nuke(Set storage self) public {
         delete self.keyList;
     }
 }
@@ -82,7 +82,7 @@ contract SolidityUnorderedKeySet {
         return set.indexAtKey(key);
     }
 
-    function nukeSet() public {
-        set.nukeSet();
+    function nuke() public {
+        set.nuke();
     }
 }
