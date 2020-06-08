@@ -47,4 +47,9 @@ contract SolidityUnorderedKeySetTest is DSTest {
         setKeyAtIndex.insert("test");
         assertEq("test", setKeyAtIndex.keyList[0]);
     }
+
+    function testIndexAtKey() public {
+        setIndexAtKey.insert("test");
+        assertEq(0, setKeyAtIndex.keyPointers["test"]);
+    }
 }
