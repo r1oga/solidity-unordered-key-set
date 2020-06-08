@@ -83,9 +83,8 @@ contract Widget {
 
 A production dapp would probably have access control for the state-changing functions. This is deliberately set aside for brevity and to show that the library is unopinionated about how that should work. For example, add `onlyOwner` modifiers to `newWidget()`, `updateWidget()` and `remWidget()` functions if appropriate.
 
-## Tests
-
-In development
+## Compile contracts: `dapp --use solc:0.6.0 build`
+## Test contracts: `dapp --use solc:0.6.0 test`
 
 ## Credit
 [Rob Hitchens](https://github.com/rob-Hitchens/UnorderedKeySet)
