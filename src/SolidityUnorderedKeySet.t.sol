@@ -9,6 +9,9 @@ contract SolidityUnorderedKeySetTest is DSTest {
     SolidityUnorderedKeySetLib.Set setExists;
     SolidityUnorderedKeySetLib.Set setInsert;
     SolidityUnorderedKeySetLib.Set setRemove;
+    SolidityUnorderedKeySetLib.Set setKeyAtIndex;
+    SolidityUnorderedKeySetLib.Set setIndexAtKey;
+    SolidityUnorderedKeySetLib.Set setNuke;
 
     function setUp() public {
         // set = SolidityUnorderedKeySetLib.Set();
@@ -38,5 +41,10 @@ contract SolidityUnorderedKeySetTest is DSTest {
         assert(setRemove.exists("test"));
         setRemove.remove("test");
         assert(!setRemove.exists("test"));
+    }
+
+    function testKeyAtIndex() public {
+        setKeyAtIndex.insert("test");
+        assertEq("test", setKeyAtIndex.keyList[0]);
     }
 }
