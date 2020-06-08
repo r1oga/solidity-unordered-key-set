@@ -52,4 +52,19 @@ contract SolidityUnorderedKeySetTest is DSTest {
         setIndexAtKey.insert("test");
         assertEq(0, setKeyAtIndex.keyPointers["test"]);
     }
+
+    // FAILS with dapp test but succeed in e.g remix
+    function testNuke() public {
+        // Add 2 elements
+        setNuke.insert("test0");
+        setNuke.insert("test1");
+        assert(setNuke.exists("test0"));
+        assert(setNuke.exists("test1"));
+        assertEq(2, setNuke.len());
+        // nuke
+        setNuke.nuke();
+        assert(!setNuke.exists("test0"));
+        assert(!setNuke.exists("test1"));
+        assertEq(0, setNuke.len());
+    }
 }
